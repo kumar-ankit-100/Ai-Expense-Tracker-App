@@ -32,51 +32,7 @@ class GeminiService {
       return this.cache.get(cacheKey);
     }
 
-    // Fallback if API key is not configured
-    if (!this.model) {
-      return this.fallbackCategorization(title, amount, note);
-    }
-
-    try {
-      const prompt = `${AI_PROMPTS.CATEGORIZE}
-
-Transaction Details:
-Title: ${title}
-Amount: ₹${amount}
-${note ? `Note: ${note}` : ''}
-
-Analyze and categorize this transaction.`;
-
-      const result = await this.model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
-      
-      // Parse JSON response
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        
-        // Find matching category
-        const categoryData = this.findCategoryByName(parsed.category);
-        
-        const result = {
-          category: categoryData.id,
-          categoryIcon: categoryData.icon,
-          categoryColor: categoryData.color,
-          confidence: parsed.confidence || 0.8,
-          reasoning: parsed.reasoning || 'AI categorized',
-        };
-        
-        // Cache the result
-        this.cache.set(cacheKey, result);
-        
-        return result;
-      }
-    } catch (error) {
-      console.error('Gemini AI Error:', error);
-    }
-
-    // Fallback to rule-based categorization
+    // Use fallback rule-based categorization (AI disabled to avoid API errors)
     return this.fallbackCategorization(title, amount, note);
   }
 
@@ -149,36 +105,8 @@ Analyze and categorize this transaction.`;
   }
 
   async generateInsights(transactions: any[]): Promise<string[]> {
-    if (!this.model || transactions.length === 0) {
-      return this.generateFallbackInsights(transactions);
-    }
-
-    try {
-      const summary = this.generateTransactionSummary(transactions);
-      
-      const prompt = `${AI_PROMPTS.INSIGHTS}
-
-Transaction Summary:
-${summary}
-
-Provide 3-5 actionable insights in brief bullet points.`;
-
-      const result = await this.model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
-      
-      // Parse insights
-      const insights = text
-        .split('\n')
-        .filter((line: string) => line.trim().length > 0)
-        .map((line: string) => line.replace(/^[•\-*]\s*/, '').trim())
-        .filter((line: string) => line.length > 10);
-      
-      return insights.slice(0, 5);
-    } catch (error) {
-      console.error('Insights Generation Error:', error);
-      return this.generateFallbackInsights(transactions);
-    }
+    // Use fallback insights (AI disabled to avoid API errors)
+    return this.generateFallbackInsights(transactions);
   }
 
   private generateTransactionSummary(transactions: any[]): string {
