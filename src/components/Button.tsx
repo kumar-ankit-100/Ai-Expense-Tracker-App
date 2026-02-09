@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: RADIUS.lg,
+      borderRadius: RADIUS.xl,
       ...SHADOWS.medium,
     };
     

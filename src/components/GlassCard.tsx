@@ -47,7 +47,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: RADIUS.lg,
+    borderRadius: RADIUS.xl,
     overflow: 'hidden',
     backgroundColor: COLORS.glass.light,
     ...SHADOWS.medium,

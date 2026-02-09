@@ -95,8 +95,8 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   };
   
   return (
-    <Modal visible={visible} animationType="slide" transparent>
-      <BlurView intensity={90} style={styles.overlay}>
+    <Modal visible={visible} animationType="slide" transparent={false}>
+      <View style={styles.fullScreenContainer}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
@@ -238,8 +238,10 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                   numberOfLines={3}
                 />
               </GlassCard>
-              
-              {/* Save Button */}
+            </ScrollView>
+            
+            {/* Save Button - Fixed at bottom */}
+            <View style={styles.buttonContainer}>
               <Button
                 title="Save Transaction"
                 onPress={handleSave}
@@ -247,33 +249,31 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                 size="large"
                 fullWidth
                 disabled={!amount || !title}
-                style={styles.saveButton}
               />
-            </ScrollView>
+            </View>
           </View>
         </KeyboardAvoidingView>
-      </BlurView>
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  fullScreenContainer: {
+    flex: 1,
+    backgroundColor: COLORS.dark[400],
+  },
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
   },
   modalContent: {
+    flex: 1,
     backgroundColor: COLORS.dark[400],
-    borderTopLeftRadius: RADIUS.xxl,
-    borderTopRightRadius: RADIUS.xxl,
-    paddingTop: SPACING.xl,
-    paddingBottom: Platform.OS === 'ios' ? 40 : SPACING.xl,
-    maxHeight: '92%',
-    minHeight: '85%',
+    paddingTop: SPACING.xxl,
   },
   header: {
     flexDirection: 'row',
@@ -288,12 +288,14 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   closeButton: {
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
     borderRadius: RADIUS.full,
-    backgroundColor: COLORS.glass.light,
+    backgroundColor: COLORS.dark[200],
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.dark[100],
   },
   closeText: {
     fontSize: TYPOGRAPHY.sizes.xl,
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
   typeButton: {
     flex: 1,
     paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.lg,
+    borderRadius: RADIUS.xl,
     borderWidth: 2,
     borderColor: COLORS.dark[200],
     alignItems: 'center',
@@ -325,6 +327,9 @@ const styles = StyleSheet.create({
   inputCard: {
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
+    borderWidth: 1.5,
+    borderColor: COLORS.dark[200],
+    borderRadius: RADIUS.xl,
   },
   label: {
     fontSize: TYPOGRAPHY.sizes.sm,
@@ -343,8 +348,9 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
   },
   noteInput: {
-    minHeight: 60,
+    minHeight: 80,
     textAlignVertical: 'top',
+    paddingTop: SPACING.sm,
   },
   aiButton: {
     marginHorizontal: SPACING.lg,
@@ -392,6 +398,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xl,
   },
   scrollContent: {
-    paddingBottom: SPACING.xxl,
+    paddingBottom: SPACING.md,
+  },
+  buttonContainer: {
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.lg,
+    paddingBottom: Platform.OS === 'ios' ? SPACING.xxl : SPACING.lg,
+    backgroundColor: COLORS.dark[400],
+    borderTopWidth: 1,
+    borderTopColor: COLORS.dark[200],
   },
 });

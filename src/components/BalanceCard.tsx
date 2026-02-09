@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   indicator: {
     width: 4,
     height: 40,
-    borderRadius: RADIUS.xs,
+    borderRadius: RADIUS.full,
   },
   statLabel: {
     fontSize: TYPOGRAPHY.sizes.xs,
