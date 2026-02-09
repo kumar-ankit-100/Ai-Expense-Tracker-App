@@ -20,7 +20,7 @@ import {
 } from '@/components';
 import { useStore } from '@/store';
 import { useAnalytics } from '@/hooks';
-import { COLORS, SPACING, TYPOGRAPHY, RADIUS } from '@/theme/colors';
+import { COLORS, SPACING, TYPOGRAPHY, RADIUS, SHADOWS } from '@/theme/colors';
 import { geminiService } from '@/services/ai';
 
 const { width } = Dimensions.get('window');
