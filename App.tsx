@@ -8,9 +8,13 @@ import { AuthScreen } from './src/screens';
 import { useStore } from './src/store';
 import { COLORS } from './src/theme/colors';
 
-// Configure reanimated
+// Configure reanimated for smooth 60fps animations
 import 'react-native-reanimated';
 
+/**
+ * Main App Component
+ * Handles authentication flow and navigation setup
+ */
 export default function App() {
   const user = useStore((state: any) => state.user);
   
