@@ -109,7 +109,10 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               </TouchableOpacity>
             </View>
             
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContent}
+            >
               {/* Type Selector */}
               <View style={styles.typeContainer}>
                 <TouchableOpacity
@@ -267,9 +270,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.dark[400],
     borderTopLeftRadius: RADIUS.xxl,
     borderTopRightRadius: RADIUS.xxl,
-    paddingTop: SPACING.lg,
-    paddingBottom: SPACING.xxl,
-    maxHeight: '90%',
+    paddingTop: SPACING.xl,
+    paddingBottom: Platform.OS === 'ios' ? 40 : SPACING.xl,
+    maxHeight: '92%',
+    minHeight: '85%',
   },
   header: {
     flexDirection: 'row',
@@ -298,23 +302,24 @@ const styles = StyleSheet.create({
   typeContainer: {
     flexDirection: 'row',
     marginHorizontal: SPACING.lg,
-    marginBottom: SPACING.md,
-    gap: SPACING.sm,
+    marginBottom: SPACING.lg,
+    gap: SPACING.md,
   },
   typeButton: {
     flex: 1,
-    paddingVertical: SPACING.md,
+    paddingVertical: SPACING.lg,
     borderRadius: RADIUS.lg,
     borderWidth: 2,
     borderColor: COLORS.dark[200],
     alignItems: 'center',
+    backgroundColor: COLORS.dark[300],
   },
   typeButtonActive: {
-    backgroundColor: COLORS.glass.light,
+    backgroundColor: COLORS.dark[200],
   },
   typeText: {
-    fontSize: TYPOGRAPHY.sizes.md,
-    fontWeight: TYPOGRAPHY.weights.semibold,
+    fontSize: TYPOGRAPHY.sizes.lg,
+    fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.text.secondary,
   },
   inputCard: {
@@ -357,31 +362,36 @@ const styles = StyleSheet.create({
     color: COLORS.primary[400],
   },
   categoryScroll: {
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.lg,
     paddingLeft: SPACING.lg,
   },
   categoryButton: {
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.lg,
-    backgroundColor: COLORS.glass.light,
-    marginRight: SPACING.sm,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.xl,
+    backgroundColor: COLORS.dark[300],
+    marginRight: SPACING.md,
     alignItems: 'center',
     borderWidth: 2,
     borderColor: 'transparent',
-    minWidth: 80,
+    minWidth: 90,
   },
   categoryIcon: {
-    fontSize: 24,
-    marginBottom: SPACING.xs,
+    fontSize: 32,
+    marginBottom: SPACING.sm,
   },
   categoryName: {
-    fontSize: TYPOGRAPHY.sizes.xs,
+    fontSize: TYPOGRAPHY.sizes.sm,
     color: COLORS.text.secondary,
     textAlign: 'center',
+    fontWeight: TYPOGRAPHY.weights.medium,
   },
   saveButton: {
     marginHorizontal: SPACING.lg,
-    marginTop: SPACING.md,
+    marginTop: SPACING.lg,
+    marginBottom: SPACING.xl,
+  },
+  scrollContent: {
+    paddingBottom: SPACING.xxl,
   },
 });
