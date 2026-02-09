@@ -3,16 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import { BottomTabNavigator } from './navigation';
-import { AuthScreen } from './screens';
-import { useStore } from './store';
-import { COLORS } from './theme/colors';
+import { BottomTabNavigator } from './src/navigation';
+import { AuthScreen } from './src/screens';
+import { useStore } from './src/store';
+import { COLORS } from './src/theme/colors';
 
 // Configure reanimated
 import 'react-native-reanimated';
 
 export default function App() {
-  const user = useStore((state) => state.user);
+  const user = useStore((state: any) => state.user);
   
   // Initialize default user if none exists (for demo purposes)
   useEffect(() => {
