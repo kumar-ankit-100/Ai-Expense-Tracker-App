@@ -109,16 +109,21 @@ export const ProfileScreen = () => {
           </View>
           <Text style={styles.userName}>{user?.name || 'Guest User'}</Text>
           <Text style={styles.userEmail}>{user?.email || 'guest@example.com'}</Text>
+          <View style={styles.userBadge}>
+            <Text style={styles.userBadgeText}>✨ Premium</Text>
+          </View>
         </GlassCard>
         
         {/* Stats */}
         <View style={styles.statsContainer}>
           <GlassCard style={styles.statCard}>
+            <Text style={styles.statEmoji}>📝</Text>
             <Text style={styles.statValue}>{transactions.length}</Text>
             <Text style={styles.statLabel}>Transactions</Text>
           </GlassCard>
           
           <GlassCard style={styles.statCard}>
+            <Text style={styles.statEmoji}>📅</Text>
             <Text style={styles.statValue}>
               {Math.ceil((Date.now() - new Date(user?.createdAt || Date.now()).getTime()) / (1000 * 60 * 60 * 24))}
             </Text>
@@ -292,20 +297,37 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: TYPOGRAPHY.sizes.sm,
     color: COLORS.text.secondary,
+    marginBottom: SPACING.sm,
+  },
+  userBadge: {
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs,
+    backgroundColor: COLORS.primary[500] + '30',
+    borderRadius: RADIUS.full,
+    marginTop: SPACING.xs,
+  },
+  userBadgeText: {
+    fontSize: TYPOGRAPHY.sizes.xs,
+    color: COLORS.primary[400],
+    fontWeight: TYPOGRAPHY.weights.semibold,
   },
   statsContainer: {
     flexDirection: 'row',
     paddingHorizontal: SPACING.md,
-    gap: SPACING.sm,
+    gap: SPACING.md,
     marginBottom: SPACING.lg,
   },
   statCard: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: SPACING.lg,
+    paddingVertical: SPACING.xl,
+  },
+  statEmoji: {
+    fontSize: 32,
+    marginBottom: SPACING.sm,
   },
   statValue: {
-    fontSize: TYPOGRAPHY.sizes.xxxl,
+    fontSize: 32,
     fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.primary[400],
     marginBottom: SPACING.xs,
@@ -313,6 +335,7 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: TYPOGRAPHY.sizes.xs,
     color: COLORS.text.secondary,
+    textAlign: 'center',
   },
   section: {
     marginBottom: SPACING.lg,

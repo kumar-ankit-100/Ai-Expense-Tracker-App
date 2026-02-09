@@ -17,6 +17,7 @@ import {
   GlassCard,
   TransactionItem,
   AddTransactionModal,
+  FloatingParticles,
 } from '@/components';
 import { useStore } from '@/store';
 import { useAnalytics } from '@/hooks';
@@ -63,7 +64,10 @@ export const DashboardScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      
+
+      {/* Floating Particles */}
+      <FloatingParticles count={6} />
+
       {/* Header Gradient */}
       <LinearGradient
         colors={['rgba(0, 105, 255, 0.2)', 'transparent']}
@@ -104,39 +108,81 @@ export const DashboardScreen = () => {
         <View style={styles.quickStats}>
           <Animated.View entering={FadeInDown.delay(100)} style={styles.statCard}>
             <GlassCard>
-              <Text style={styles.statLabel}>Transactions</Text>
+              <View style={styles.statIcon}>
+                <Text style={styles.statEmoji}>📝</Text>
+              </View>
+              <Text style={styles.statLabel}>Total</Text>
               <Text style={styles.statValue}>{transactions.length}</Text>
+              <Text style={styles.statSubtext}>Transactions</Text>
             </GlassCard>
           </Animated.View>
           
           <Animated.View entering={FadeInDown.delay(200)} style={styles.statCard}>
             <GlassCard>
-              <Text style={styles.statLabel}>This Month</Text>
-              <Text style={[styles.statValue, { color: COLORS.expense }]}>
+              <View style={styles.statIcon}>
+                <Text style={styles.statEmoji}>📊</Text>
+              </View>
+              <Text style={styles.statLabel}>Active</Text>
+              <Text style={[styles.statValue, { color: COLORS.primary[400] }]}>
                 {categoryBreakdown.length}
               </Text>
+              <Text style={styles.statSubtext}>Categories</Text>
             </GlassCard>
           </Animated.View>
           
           <Animated.View entering={FadeInDown.delay(300)} style={styles.statCard}>
             <GlassCard>
-              <Text style={styles.statLabel}>Categories</Text>
-              <Text style={styles.statValue}>{topCategories.length}</Text>
+              <View style={styles.statIcon}>
+                <Text style={styles.statEmoji}>💰</Text>
+              </View>
+              <Text style={styles.statLabel}>Avg Daily</Text>
+              <Text style={[styles.statValue, { fontSize: 18 }]}>
+                ₹{(totalExpense / 30).toFixed(0)}
+              </Text>
+              <Text style={styles.statSubtext}>Spending</Text>
             </GlassCard>
           </Animated.View>
         </View>
+
+        {/* Savings Rate Card */}
+        <Animated.View entering={FadeInDown.delay(350)}>
+          <GlassCard
+            gradient
+            gradientColors={['rgba(16, 185, 129, 0.2)', 'rgba(16, 185, 129, 0.05)']}
+            style={styles.savingsCard}
+          >
+            <View style={styles.savingsHeader}>
+              <View>
+                <Text style={styles.savingsLabel}>💎 Savings Rate</Text>
+                <Text style={styles.savingsValue}>
+                  {totalIncome > 0 ? ((1 - totalExpense / totalIncome) * 100).toFixed(1) : 0}%
+                </Text>
+              </View>
+              <View style={styles.savingsIndicator}>
+                <Text style={styles.savingsAmount}>
+                  ₹{(totalIncome - totalExpense).toLocaleString()}
+                </Text>
+                <Text style={styles.savingsText}>Saved this month</Text>
+              </View>
+            </View>
+          </GlassCard>
+        </Animated.View>
         
         {/* AI Insights */}
         {insights.length > 0 && (
           <Animated.View entering={FadeInDown.delay(400)}>
+            <View style={styles.sectionHeaderWithLine}>
+              <View style={styles.sectionTitleRow}>
+                <Text style={styles.sectionIcon}>✨</Text>
+                <Text style={styles.sectionTitle}>AI Insights</Text>
+              </View>
+              <View style={styles.sectionLine} />
+            </View>
             <GlassCard
               gradient
               gradientColors={['rgba(139, 92, 246, 0.2)', 'rgba(139, 92, 246, 0.05)']}
               style={styles.insightsCard}
             >
-              <View style={styles.insightsHeader}>
-                <Text style={styles.insightsTitle}>✨ AI Insights</Text>
-              </View>
               {insights.map((insight, index) => (
                 <View key={index} style={styles.insightItem}>
                   <Text style={styles.insightBullet}>•</Text>
@@ -150,8 +196,12 @@ export const DashboardScreen = () => {
         {/* Top Spending Categories */}
         {topCategories.length > 0 && (
           <Animated.View entering={FadeInDown.delay(500)}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Top Spending</Text>
+            <View style={styles.sectionHeaderWithLine}>
+              <View style={styles.sectionTitleRow}>
+                <Text style={styles.sectionIcon}>📊</Text>
+                <Text style={styles.sectionTitle}>Top Spending</Text>
+              </View>
+              <View style={styles.sectionLine} />
             </View>
             
             {topCategories.map((category, index) => {
@@ -190,13 +240,12 @@ export const DashboardScreen = () => {
         )}
         
         {/* Recent Transactions */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent Transactions</Text>
-          {transactions.length > 10 && (
-            <TouchableOpacity>
-              <Text style={styles.seeAll}>See All</Text>
-            </TouchableOpacity>
-          )}
+        <View style={styles.sectionHeaderWithLine}>
+          <View style={styles.sectionTitleRow}>
+            <Text style={styles.sectionIcon}>💳</Text>
+            <Text style={styles.sectionTitle}>Recent Transactions</Text>
+          </View>
+          <View style={styles.sectionLine} />
         </View>
         
         {recentTransactions.length > 0 ? (
@@ -293,27 +342,86 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
   },
+  statIcon: {
+    alignItems: 'center',
+    marginBottom: SPACING.xs,
+  },
+  statEmoji: {
+    fontSize: 28,
+  },
   statLabel: {
     fontSize: TYPOGRAPHY.sizes.xs,
     color: COLORS.text.secondary,
-    marginBottom: SPACING.xs,
+    marginBottom: 4,
+    textAlign: 'center',
   },
   statValue: {
+    fontSize: TYPOGRAPHY.sizes.xxl,
+    fontWeight: TYPOGRAPHY.weights.bold,
+    color: COLORS.text.primary,
+    textAlign: 'center',
+  },
+  statSubtext: {
+    fontSize: TYPOGRAPHY.sizes.xs,
+    color: COLORS.text.secondary,
+    marginTop: 2,
+    textAlign: 'center',
+  },
+  savingsCard: {
+    marginHorizontal: SPACING.md,
+    marginTop: SPACING.md,
+    padding: SPACING.lg,
+  },
+  savingsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  savingsLabel: {
+    fontSize: TYPOGRAPHY.sizes.md,
+    color: COLORS.text.secondary,
+    marginBottom: SPACING.xs,
+  },
+  savingsValue: {
+    fontSize: 36,
+    fontWeight: TYPOGRAPHY.weights.bold,
+    color: COLORS.success,
+  },
+  savingsIndicator: {
+    alignItems: 'flex-end',
+  },
+  savingsAmount: {
     fontSize: TYPOGRAPHY.sizes.xl,
     fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.text.primary,
   },
+  savingsText: {
+    fontSize: TYPOGRAPHY.sizes.xs,
+    color: COLORS.text.secondary,
+    marginTop: 4,
+  },
   insightsCard: {
     marginHorizontal: SPACING.md,
-    marginTop: SPACING.lg,
-  },
-  insightsHeader: {
     marginBottom: SPACING.md,
   },
-  insightsTitle: {
-    fontSize: TYPOGRAPHY.sizes.lg,
-    fontWeight: TYPOGRAPHY.weights.bold,
-    color: COLORS.text.primary,
+  sectionHeaderWithLine: {
+    paddingHorizontal: SPACING.lg,
+    marginTop: SPACING.xl,
+    marginBottom: SPACING.md,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: SPACING.sm,
+  },
+  sectionIcon: {
+    fontSize: 20,
+    marginRight: SPACING.sm,
+  },
+  sectionLine: {
+    height: 2,
+    backgroundColor: COLORS.primary[400] + '30',
+    borderRadius: RADIUS.full,
   },
   insightItem: {
     flexDirection: 'row',
@@ -349,13 +457,14 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     marginHorizontal: SPACING.md,
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
+    padding: SPACING.lg,
   },
   categoryRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   categoryInfo: {
     flexDirection: 'row',
@@ -363,7 +472,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoryIcon: {
-    fontSize: 24,
+    fontSize: 32,
     marginRight: SPACING.md,
   },
   categoryDetails: {
@@ -371,22 +480,23 @@ const styles = StyleSheet.create({
   },
   categoryName: {
     fontSize: TYPOGRAPHY.sizes.md,
-    fontWeight: TYPOGRAPHY.weights.semibold,
+    fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.text.primary,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   categoryAmount: {
-    fontSize: TYPOGRAPHY.sizes.sm,
+    fontSize: TYPOGRAPHY.sizes.md,
     color: COLORS.text.secondary,
+    fontWeight: TYPOGRAPHY.weights.semibold,
   },
   categoryPercentage: {
-    fontSize: TYPOGRAPHY.sizes.lg,
+    fontSize: TYPOGRAPHY.sizes.xxl,
     fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.primary[400],
   },
   progressBar: {
-    height: 6,
-    backgroundColor: COLORS.dark[200],
+    height: 8,
+    backgroundColor: COLORS.dark[200] + '50',
     borderRadius: RADIUS.full,
     overflow: 'hidden',
   },

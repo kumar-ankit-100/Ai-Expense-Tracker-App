@@ -7,14 +7,15 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
-import { Button, GlassCard } from '@/components';
+import { Button, GlassCard, FloatingParticles } from '@/components';
 import { useStore } from '@/store';
-import { COLORS, SPACING, TYPOGRAPHY, RADIUS } from '@/theme/colors';
+import { COLORS, SPACING, TYPOGRAPHY, RADIUS, SHADOWS } from '@/theme/colors';
 
 export const AuthScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -63,28 +64,41 @@ export const AuthScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      
+
+      {/* Floating Particles Background */}
+      <FloatingParticles count={12} />
+
       <LinearGradient
-        colors={['rgba(0, 105, 255, 0.3)', 'transparent']}
+        colors={['rgba(0, 105, 255, 0.3)', 'rgba(102, 126, 234, 0.2)', 'transparent']}
         style={styles.gradient}
       />
-      
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.content}
+        style={styles.keyboardView}
       >
-        {/* Logo/Header */}
-        <Animated.View entering={FadeInDown.delay(100)} style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Text style={styles.logo}>💰</Text>
-          </View>
-          <Text style={styles.appName}>AI Finance Tracker</Text>
-          <Text style={styles.tagline}>Smart Finance Management</Text>
-        </Animated.View>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Logo/Header */}
+          <Animated.View entering={FadeInDown.delay(100)} style={styles.header}>
+            <View style={styles.logoContainer}>
+              <LinearGradient
+                colors={[COLORS.primary[500], COLORS.primary[700]]}
+                style={styles.logoGradient}
+              >
+                <Text style={styles.logo}>💰</Text>
+              </LinearGradient>
+            </View>
+            <Text style={styles.appName}>AI Finance Tracker</Text>
+            <Text style={styles.tagline}>✨ Smart Finance Management ✨</Text>
+          </Animated.View>
         
-        {/* Auth Form */}
-        <Animated.View entering={FadeInDown.delay(200)}>
-          <GlassCard style={styles.formCard}>
+          {/* Auth Form */}
+          <Animated.View entering={FadeInDown.delay(200)}>
+            <GlassCard style={styles.formCard}>
             <View style={styles.tabContainer}>
               <TouchableOpacity
                 style={[styles.tab, isLogin && styles.tabActive]}
@@ -172,26 +186,29 @@ export const AuthScreen = () => {
               size="large"
               fullWidth
             />
-          </GlassCard>
-        </Animated.View>
+            </GlassCard>
+          </Animated.View>
         
-        {/* Features */}
-        <Animated.View entering={FadeInDown.delay(300)} style={styles.features}>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>✨</Text>
-            <Text style={styles.featureText}>AI-Powered Categorization</Text>
-          </View>
-          
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>📊</Text>
-            <Text style={styles.featureText}>Advanced Analytics</Text>
-          </View>
-          
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>🔒</Text>
-            <Text style={styles.featureText}>Secure & Private</Text>
-          </View>
-        </Animated.View>
+          {/* Features */}
+          <Animated.View entering={FadeInDown.delay(300)} style={styles.features}>
+            <View style={styles.feature}>
+              <Text style={styles.featureIcon}>✨</Text>
+              <Text style={styles.featureText}>AI-Powered Categorization</Text>
+            </View>
+
+            <View style={styles.feature}>
+              <Text style={styles.featureIcon}>📊</Text>
+              <Text style={styles.featureText}>Advanced Analytics</Text>
+            </View>
+
+            <View style={styles.feature}>
+              <Text style={styles.featureIcon}>🔒</Text>
+              <Text style={styles.featureText}>Secure & Private</Text>
+            </View>
+          </Animated.View>
+
+          <View style={{ height: 40 }} />
+        </ScrollView>
       </KeyboardAvoidingView>
     </View>
   );
@@ -209,26 +226,36 @@ const styles = StyleSheet.create({
     right: 0,
     height: 400,
   },
-  content: {
+  keyboardView: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.xxl * 2,
   },
   header: {
     alignItems: 'center',
-    marginBottom: SPACING.xxl,
-  },
-  logoContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: RADIUS.full,
-    backgroundColor: COLORS.primary[500] + '20',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: SPACING.lg,
   },
+  logoContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: RADIUS.full,
+    overflow: 'hidden',
+    marginBottom: SPACING.lg,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    ...SHADOWS.glow,
+  },
+  logoGradient: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logo: {
-    fontSize: 48,
+    fontSize: 56,
   },
   appName: {
     fontSize: TYPOGRAPHY.sizes.xxxl,

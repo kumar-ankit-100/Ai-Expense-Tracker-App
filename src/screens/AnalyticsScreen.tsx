@@ -179,6 +179,29 @@ export const AnalyticsScreen = () => {
           ))}
         </View>
         
+        {/* Summary Cards */}
+        <View style={styles.summaryRow}>
+          <Animated.View entering={FadeInDown.delay(100)} style={styles.summaryCard}>
+            <GlassCard gradient gradientColors={['rgba(34, 197, 94, 0.2)', 'rgba(34, 197, 94, 0.05)']}>
+              <Text style={styles.summaryIcon}>💰</Text>
+              <Text style={styles.summaryLabel}>Income</Text>
+              <Text style={[styles.summaryValue, { color: COLORS.success }]}>
+                {format(totalIncome)}
+              </Text>
+            </GlassCard>
+          </Animated.View>
+          
+          <Animated.View entering={FadeInDown.delay(200)} style={styles.summaryCard}>
+            <GlassCard gradient gradientColors={['rgba(239, 68, 68, 0.2)', 'rgba(239, 68, 68, 0.05)']}>
+              <Text style={styles.summaryIcon}>💸</Text>
+              <Text style={styles.summaryLabel}>Expense</Text>
+              <Text style={[styles.summaryValue, { color: COLORS.expense }]}>
+                {format(totalExpense)}
+              </Text>
+            </GlassCard>
+          </Animated.View>
+        </View>
+        
         {/* Overview Cards */}
         <View style={styles.overviewGrid}>
           <Animated.View entering={FadeInDown.delay(100)} style={styles.overviewCard}>
@@ -377,6 +400,31 @@ const styles = StyleSheet.create({
   },
   periodTextActive: {
     color: COLORS.text.primary,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    paddingHorizontal: SPACING.md,
+    gap: SPACING.md,
+    marginBottom: SPACING.lg,
+  },
+  summaryCard: {
+    flex: 1,
+  },
+  summaryIcon: {
+    fontSize: 32,
+    textAlign: 'center',
+    marginBottom: SPACING.sm,
+  },
+  summaryLabel: {
+    fontSize: TYPOGRAPHY.sizes.sm,
+    color: COLORS.text.secondary,
+    marginBottom: SPACING.xs,
+    textAlign: 'center',
+  },
+  summaryValue: {
+    fontSize: TYPOGRAPHY.sizes.xl,
+    fontWeight: TYPOGRAPHY.weights.bold,
+    textAlign: 'center',
   },
   overviewGrid: {
     flexDirection: 'row',

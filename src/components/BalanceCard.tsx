@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { COLORS, SPACING, TYPOGRAPHY, RADIUS } from '@/theme/colors';
 import { GlassCard } from './GlassCard';
-import { useCurrency } from '@/hooks';
+import { AnimatedCounter } from './AnimatedCounter';
 
 interface BalanceCardProps {
   balance: number;
@@ -24,7 +24,6 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
   expense,
   onPress,
 }) => {
-  const { format } = useCurrency();
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
   
@@ -53,26 +52,39 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
       >
         <View>
           <Text style={styles.label}>Total Balance</Text>
-          <Text style={styles.balance}>{format(balance)}</Text>
-          
+          <View style={styles.balanceContainer}>
+            <AnimatedCounter
+              value={balance}
+              prefix="₹"
+              style={styles.balance}
+              duration={1200}
+            />
+          </View>
+
           <View style={styles.row}>
             <View style={styles.stat}>
               <View style={[styles.indicator, { backgroundColor: COLORS.income }]} />
-              <View>
+              <View style={styles.statInfo}>
                 <Text style={styles.statLabel}>Income</Text>
-                <Text style={[styles.statValue, { color: COLORS.income }]}>
-                  {format(income)}
-                </Text>
+                <AnimatedCounter
+                  value={income}
+                  prefix="₹"
+                  style={{ ...styles.statValue, color: COLORS.income }}
+                  duration={1000}
+                />
               </View>
             </View>
-            
+
             <View style={styles.stat}>
               <View style={[styles.indicator, { backgroundColor: COLORS.expense }]} />
-              <View>
+              <View style={styles.statInfo}>
                 <Text style={styles.statLabel}>Expense</Text>
-                <Text style={[styles.statValue, { color: COLORS.expense }]}>
-                  {format(expense)}
-                </Text>
+                <AnimatedCounter
+                  value={expense}
+                  prefix="₹"
+                  style={{ ...styles.statValue, color: COLORS.expense }}
+                  duration={1000}
+                />
               </View>
             </View>
           </View>
@@ -91,12 +103,17 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.sizes.sm,
     color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  balanceContainer: {
+    marginBottom: SPACING.lg,
   },
   balance: {
-    fontSize: TYPOGRAPHY.sizes.xxxl,
+    fontSize: 42,
     fontWeight: TYPOGRAPHY.weights.bold,
     color: COLORS.text.primary,
-    marginBottom: SPACING.lg,
+    lineHeight: 50,
   },
   row: {
     flexDirection: 'row',
@@ -106,10 +123,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.sm,
+    flex: 1,
+  },
+  statInfo: {
+    flex: 1,
   },
   indicator: {
     width: 4,
-    height: 32,
+    height: 40,
     borderRadius: RADIUS.xs,
   },
   statLabel: {
