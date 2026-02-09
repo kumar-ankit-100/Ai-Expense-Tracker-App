@@ -59,9 +59,6 @@ export const BottomTabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarBackground: () => (
-          <BlurView intensity={90} style={StyleSheet.absoluteFill} />
-        ),
         tabBarShowLabel: false,
       }}
     >
@@ -110,13 +107,18 @@ export const BottomTabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
+    position: 'relative',
+    backgroundColor: COLORS.dark[300],
     borderTopWidth: 1,
-    borderTopColor: COLORS.glass.light,
-    height: 90,
-    paddingBottom: SPACING.lg,
-    paddingTop: SPACING.sm,
+    borderTopColor: COLORS.primary[400] + '40',
+    height: 80,
+    paddingBottom: SPACING.md,
+    paddingTop: SPACING.xs,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 10,
   },
   tabItem: {
     alignItems: 'center',
@@ -132,14 +134,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabIconContainerFocused: {
-    backgroundColor: COLORS.primary[400] + '15',
-    borderWidth: 2,
+    backgroundColor: COLORS.primary[400] + '25',
+    borderWidth: 2.5,
     borderColor: COLORS.primary[400],
     shadowColor: COLORS.primary[400],
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 10,
   },
   tabIcon: {
     fontSize: 26,

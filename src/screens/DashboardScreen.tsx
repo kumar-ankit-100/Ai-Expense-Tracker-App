@@ -76,6 +76,7 @@ export const DashboardScreen = () => {
       
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: SPACING.lg }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -264,8 +265,6 @@ export const DashboardScreen = () => {
             </Text>
           </GlassCard>
         )}
-        
-        <View style={{ height: 100 }} />
       </ScrollView>
       
       {/* Floating Action Button */}
@@ -522,7 +521,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: SPACING.xxl,
+    bottom: 100,
     right: SPACING.lg,
     width: 64,
     height: 64,

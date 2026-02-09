@@ -90,7 +90,7 @@ export const ProfileScreen = () => {
     <View style={styles.container}>
       <StatusBar style="light" />
       
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>Profile</Text>
@@ -233,8 +233,6 @@ export const ProfileScreen = () => {
           variant="outline"
           style={styles.logoutButton}
         />
-        
-        <View style={{ height: 40 }} />
       </ScrollView>
     </View>
   );

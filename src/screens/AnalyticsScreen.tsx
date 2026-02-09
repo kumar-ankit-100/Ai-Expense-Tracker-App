@@ -149,7 +149,7 @@ export const AnalyticsScreen = () => {
     <View style={styles.container}>
       <StatusBar style="light" />
       
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>Analytics</Text>
@@ -350,8 +350,6 @@ export const AnalyticsScreen = () => {
             </View>
           </GlassCard>
         </Animated.View>
-        
-        <View style={{ height: 40 }} />
       </ScrollView>
     </View>
   );
