@@ -170,9 +170,9 @@ Provide 3-5 actionable insights in brief bullet points.`;
       // Parse insights
       const insights = text
         .split('\n')
-        .filter((line) => line.trim().length > 0)
-        .map((line) => line.replace(/^[•\-*]\s*/, '').trim())
-        .filter((line) => line.length > 10);
+        .filter((line: string) => line.trim().length > 0)
+        .map((line: string) => line.replace(/^[•\-*]\s*/, '').trim())
+        .filter((line: string) => line.length > 10);
       
       return insights.slice(0, 5);
     } catch (error) {
