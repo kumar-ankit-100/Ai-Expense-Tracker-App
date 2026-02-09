@@ -27,6 +27,23 @@ cp .env.example .env
 npm start
 ```
 
+<p align="center">
+  <img src="assets/home.jpeg" alt="Home" width="350"/>
+</p>
+<p align="center">
+  <img src="assets/add_transaction.jpeg" alt="add_transaction" width="350"/>
+</p>
+<p align="center">
+  <img src="assets/calculator.jpeg" alt="calculator.jpeg" width="350"/>
+</p>
+<p align="center">
+  <img src="assets/sip_calculator.jpeg" alt="sip_calculator" width="350"/>
+</p>
+<p align="center">
+  <img src="assets/profile.jpeg" alt="profile" width="350"/>
+</p>
+
+
 ## Tech Stack
 
 - React Native 0.73.4
