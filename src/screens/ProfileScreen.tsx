@@ -13,7 +13,7 @@ import * as Haptics from 'expo-haptics';
 import { GlassCard, Button } from '@/components';
 import { useStore } from '@/store';
 import { COLORS, SPACING, TYPOGRAPHY, RADIUS } from '@/theme/colors';
-import { CURRENCIES, THEMES, APP_CONFIG } from '@/constants';
+import { APP_CONFIG } from '@/constants';
 
 export const ProfileScreen = () => {
   const user = useStore((state) => state.user);
@@ -21,9 +21,6 @@ export const ProfileScreen = () => {
   const resetAllData = useStore((state) => state.resetAllData);
   const exportData = useStore((state) => state.exportData);
   const transactions = useStore((state) => state.transactions);
-  
-  const [selectedCurrency, setSelectedCurrency] = useState(user?.currency || 'INR');
-  const [selectedTheme, setSelectedTheme] = useState(user?.theme || 'dark');
   
   const handleLogout = () => {
     Alert.alert(
@@ -74,18 +71,6 @@ export const ProfileScreen = () => {
     }
   };
   
-  const handleCurrencyChange = (currencyCode: string) => {
-    setSelectedCurrency(currencyCode);
-    updateUserSettings({ currency: currencyCode });
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
-  
-  const handleThemeChange = (theme: 'dark' | 'blue' | 'amoled') => {
-    setSelectedTheme(theme);
-    updateUserSettings({ theme });
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
-  
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -129,48 +114,6 @@ export const ProfileScreen = () => {
             </Text>
             <Text style={styles.statLabel}>Days Active</Text>
           </GlassCard>
-        </View>
-        
-        {/* Currency Selector */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Currency</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {CURRENCIES.map((currency) => (
-              <TouchableOpacity
-                key={currency.code}
-                style={[
-                  styles.optionCard,
-                  selectedCurrency === currency.code && styles.optionCardActive,
-                ]}
-                onPress={() => handleCurrencyChange(currency.code)}
-              >
-                <Text style={styles.optionSymbol}>{currency.symbol}</Text>
-                <Text style={styles.optionCode}>{currency.code}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-        
-        {/* Theme Selector */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Theme</Text>
-          <View style={styles.themeContainer}>
-            {Object.entries(THEMES).map(([key, value]) => (
-              <TouchableOpacity
-                key={value}
-                style={[
-                  styles.themeCard,
-                  selectedTheme === value && styles.themeCardActive,
-                ]}
-                onPress={() => handleThemeChange(value as any)}
-              >
-                <View style={[styles.themePreview, getThemeColors(value)]} />
-                <Text style={styles.themeText}>
-                  {key.charAt(0) + key.slice(1).toLowerCase()}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
         </View>
         
         {/* Data Management */}
@@ -236,19 +179,6 @@ export const ProfileScreen = () => {
       </ScrollView>
     </View>
   );
-};
-
-const getThemeColors = (theme: string) => {
-  switch (theme) {
-    case 'dark':
-      return { backgroundColor: COLORS.dark[300] };
-    case 'blue':
-      return { backgroundColor: COLORS.primary[500] };
-    case 'amoled':
-      return { backgroundColor: COLORS.dark[900] };
-    default:
-      return { backgroundColor: COLORS.dark[400] };
-  }
 };
 
 const styles = StyleSheet.create({
@@ -344,57 +274,6 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
-  },
-  optionCard: {
-    marginLeft: SPACING.md,
-    paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderRadius: RADIUS.lg,
-    backgroundColor: COLORS.glass.light,
-    borderWidth: 2,
-    borderColor: 'transparent',
-    alignItems: 'center',
-    minWidth: 80,
-  },
-  optionCardActive: {
-    backgroundColor: COLORS.primary[500] + '30',
-    borderColor: COLORS.primary[500],
-  },
-  optionSymbol: {
-    fontSize: TYPOGRAPHY.sizes.xxl,
-    marginBottom: SPACING.xs,
-  },
-  optionCode: {
-    fontSize: TYPOGRAPHY.sizes.xs,
-    color: COLORS.text.secondary,
-  },
-  themeContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: SPACING.md,
-    gap: SPACING.sm,
-  },
-  themeCard: {
-    flex: 1,
-    paddingVertical: SPACING.md,
-    borderRadius: RADIUS.lg,
-    backgroundColor: COLORS.glass.light,
-    borderWidth: 2,
-    borderColor: 'transparent',
-    alignItems: 'center',
-  },
-  themeCardActive: {
-    backgroundColor: COLORS.primary[500] + '30',
-    borderColor: COLORS.primary[500],
-  },
-  themePreview: {
-    width: 48,
-    height: 48,
-    borderRadius: RADIUS.md,
-    marginBottom: SPACING.sm,
-  },
-  themeText: {
-    fontSize: TYPOGRAPHY.sizes.xs,
-    color: COLORS.text.secondary,
   },
   actionCard: {
     marginHorizontal: SPACING.md,
